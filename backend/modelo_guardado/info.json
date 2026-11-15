@@ -1,0 +1,65 @@
+{
+  "categorias": [
+    "Calzado",
+    "Camisas",
+    "Chaquetas",
+    "Pantalones"
+  ],
+  "mu": 137.28571428571428,
+  "sd": 59.59173267471424,
+  "arquitectura_elegida": [
+    8
+  ],
+  "mae_validacion": 36.9,
+  "mae_referencia_mes_anterior": 43.75,
+  "candidatas": [
+    {
+      "capas": [
+        4
+      ],
+      "mae_validacion": 43.04,
+      "epocas": 2
+    },
+    {
+      "capas": [
+        8
+      ],
+      "mae_validacion": 36.9,
+      "epocas": 1
+    },
+    {
+      "capas": [
+        16
+      ],
+      "mae_validacion": 51.85,
+      "epocas": 3
+    },
+    {
+      "capas": [
+        8,
+        4
+      ],
+      "mae_validacion": 46.6,
+      "epocas": 10
+    },
+    {
+      "capas": [
+        16,
+        8
+      ],
+      "mae_validacion": 56.96,
+      "epocas": 9
+    },
+    {
+      "capas": [
+        32,
+        16
+      ],
+      "mae_validacion": 45.96,
+      "epocas": 35
+    }
+  ],
+  "muestras_entrenamiento": 12,
+  "muestras_validacion": 8,
+  "meses_historia": 7
+}
