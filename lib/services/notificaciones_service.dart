@@ -17,6 +17,7 @@ class NotificacionesService {
 
   final _plugin = FlutterLocalNotificationsPlugin();
   bool _listo = false;
+  Future<void>? _inicializando;
   int _siguienteId = 0;
 
   /// Se llama al tocar la notificación; recibe el código de la venta.
@@ -32,8 +33,10 @@ class NotificacionesService {
     ticker: 'Venta realizada',
   );
 
-  Future<void> inicializar() async {
-    if (_listo) return;
+  /// Se puede llamar varias veces: todas esperan la misma inicialización.
+  Future<void> inicializar() => _inicializando ??= _inicializar();
+
+  Future<void> _inicializar() async {
     try {
       final ok = await _plugin.initialize(
         settings: const InitializationSettings(
@@ -71,6 +74,7 @@ class NotificacionesService {
   /// Pide permiso (Android 13+, iOS, macOS, navegador).
   /// En web debe llamarse tras un gesto del usuario (ej. botón "Vender").
   Future<bool> pedirPermiso() async {
+    await inicializar();
     if (!_listo) return false;
     try {
       if (kIsWeb) {
@@ -110,6 +114,7 @@ class NotificacionesService {
   /// Muestra "¡Venta exitosa! $ 120.000 · 3 productos". Devuelve true si
   /// el sistema la aceptó.
   Future<bool> notificarVenta(Venta venta) async {
+    await inicializar();
     if (!_listo) return false;
     final unidades = venta.unidades;
     try {

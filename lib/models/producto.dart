@@ -44,18 +44,6 @@ class Producto {
     );
   }
 
-  Producto copyWith({String? codigo, int? stock}) => Producto(
-        codigo: codigo ?? this.codigo,
-        categoria: categoria,
-        descripcion: descripcion,
-        color: color,
-        talla: talla,
-        marca: marca,
-        stock: stock ?? this.stock,
-        valor: valor,
-        proveedor: proveedor,
-      );
-
   /// Body para insertar en Supabase.
   /// Un producto nuevo se guarda con 0 % de ganancia: valor_produ = valor.
   Map<String, dynamic> toInsertJson({int? proveedorId, String? registradoPor}) => {

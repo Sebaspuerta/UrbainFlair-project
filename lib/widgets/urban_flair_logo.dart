@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// ============================================================
-///  ESPACIO PARA EL LOGO DE URBAN FLAIR
-///  1) Copia tu logo a:  assets/images/logo_urban_flair.png
-///  2) Verifica que pubspec.yaml declare:  assets/images/
-///  Mientras el archivo no exista, se muestra un recuadro "LOGO".
-///  Este widget se usa en las 4 pantallas, así que cambiar
-///  [assetPath] aquí actualiza todas.
-/// ============================================================
+/// Logo de Urban Flair (Login, Registro, Home, carga y encabezado azul).
+/// Si el archivo no se puede cargar, muestra un recuadro "LOGO".
 class UrbanFlairLogo extends StatelessWidget {
-  static const String assetPath = 'assets/images/Logo_UrbanFlair.png';
+  /// Versión de 256 px del logo (se muestra a 48-64 px). El original de
+  /// 1024 px sigue en assets/images/Logo_UrbanFlair.png.
+  static const String assetPath = 'assets/images/Logo_UrbanFlair_256.png';
 
   final double height;
 
@@ -25,12 +21,12 @@ class UrbanFlairLogo extends StatelessWidget {
       assetPath,
       height: height,
       fit: BoxFit.contain,
-      errorBuilder: (_, __, ___) => Container(
+      errorBuilder: (_, _, _) => Container(
         height: height,
         width: height * 1.3,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: color.withOpacity(0.7)),
+          border: Border.all(color: color.withValues(alpha: 0.7)),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text('LOGO',

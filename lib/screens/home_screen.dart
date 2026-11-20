@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import '../utils/formato.dart';
 import '../utils/navegacion.dart';
 import '../widgets/urban_flair_logo.dart';
 
@@ -20,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _recargar();
+    // El arranque y el login ya traen los datos; solo se cargan si faltan.
+    if (!_store.datosCargados) _recargar();
   }
 
   /// Trae de Supabase los datos del resumen y repinta.
@@ -71,103 +73,91 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(12)),
                     ),
                     child: Text('Cerrar Sesión',
-                        style: GoogleFonts.archivo(
+                        style: AppTextStyles.archivo(
                             fontWeight: FontWeight.w800, fontSize: 14)),
                   ),
                 ],
               ),
             ),
             Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight),
-                    child: IntrinsicHeight(
+              // El menú azul ocupa el resto de la pantalla; si el contenido no
+              // cabe, toma su alto natural y la vista hace scroll.
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(14, 8, 14, 16),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(14, 8, 14, 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Center(
-                                  child: Text('Bienvenido, $nombre 👋',
-                                      style: GoogleFonts.archivo(
-                                          color: AppColors.azulTitulo,
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 22)),
-                                ),
-                                const SizedBox(height: 14),
-                                Text('Resumen General',
-                                    style: GoogleFonts.archivo(
-                                        color: AppColors.azulTitulo,
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 22)),
-                                const SizedBox(height: 4),
-                                Text(
-                                    'Consulta Tus Datos E Indicadores\nClave De Un Vistazo.',
-                                    style: GoogleFonts.archivo(fontSize: 12)),
-                                const SizedBox(height: 16),
-                                _TarjetaResumen(
-                                    titulo: 'Productos',
-                                    valor:
-                                        '${_store.productos.length} Registros'),
-                                _TarjetaResumen(
-                                    titulo: 'Proveedores',
-                                    valor:
-                                        '${_store.proveedores.length} Activos'),
-                                _TarjetaResumen(
-                                    titulo: 'Ventas Del Mes',
-                                    valor:
-                                        '\$${_store.ventasMes.toStringAsFixed(0)} · ${_store.unidadesVendidasMes} Unidades'),
-                                _TarjetaResumen(
-                                    titulo: 'Stock Disponible',
-                                    valor: '${_store.stockTotal} Unidades'),
-                              ],
-                            ),
+                          Center(
+                            child: Text('Bienvenido, $nombre 👋',
+                                style: AppTextStyles.tituloHome),
                           ),
-                          // Menú inferior azul
-                          Expanded(
-                            child: Container(
-                              color: AppColors.azulEncabezado,
-                              padding: const EdgeInsets.fromLTRB(8, 10, 8, 16),
-                              // SingleChildScrollView sin desplazamiento:
-                              // evita el aviso amarillo/negro de overflow.
-                              child: SingleChildScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _ItemMenu('Gráficos de ventas y más',
-                                        () => _abrir(AppRoutes.graficos)),
-                                    _ItemMenu(
-                                        'Registrar Proveedor',
-                                        () => _abrir(
-                                            AppRoutes.registrarProveedor)),
-                                    _ItemMenu(
-                                        'Registrar Producto',
-                                        () => _abrir(
-                                            AppRoutes.registrarProducto)),
-                                    _ItemMenu('Mis ventas',
-                                        () => _abrir(AppRoutes.ventas)),
-                                    _ItemMenu('Inventario',
-                                        () => _abrir(AppRoutes.inventario)),
-                                    _ItemMenu('Predicción',
-                                        () => _abrir(AppRoutes.prediccion)),
-                                    _ItemMenu('Perfil',
-                                        () => _abrir(AppRoutes.perfil)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                          const SizedBox(height: 14),
+                          Text('Resumen General',
+                              style: AppTextStyles.tituloHome),
+                          const SizedBox(height: 4),
+                          Text(
+                              'Consulta Tus Datos E Indicadores\nClave De Un Vistazo.',
+                              style: AppTextStyles.normal12),
+                          const SizedBox(height: 16),
+                          _TarjetaResumen(
+                              titulo: 'Productos',
+                              valor:
+                                  '${_store.productos.length} Registros'),
+                          _TarjetaResumen(
+                              titulo: 'Proveedores',
+                              valor:
+                                  '${_store.proveedores.length} Activos'),
+                          _TarjetaResumen(
+                              titulo: 'Ventas Del Mes',
+                              valor:
+                                  '${dineroSinMiles(_store.ventasMes, decimales: 0)} · ${_store.unidadesVendidasMes} Unidades'),
+                          _TarjetaResumen(
+                              titulo: 'Stock Disponible',
+                              valor: '${_store.stockTotal} Unidades'),
                         ],
                       ),
                     ),
                   ),
-                ),
+                  // Menú inferior azul
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Container(
+                      color: AppColors.azulEncabezado,
+                      padding: const EdgeInsets.fromLTRB(8, 10, 8, 16),
+                      // SingleChildScrollView sin desplazamiento:
+                      // evita el aviso amarillo/negro de overflow.
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _ItemMenu('Gráficos de ventas y más',
+                                () => _abrir(AppRoutes.graficos)),
+                            _ItemMenu(
+                                'Registrar Proveedor',
+                                () => _abrir(
+                                    AppRoutes.registrarProveedor)),
+                            _ItemMenu(
+                                'Registrar Producto',
+                                () => _abrir(
+                                    AppRoutes.registrarProducto)),
+                            _ItemMenu('Mis ventas',
+                                () => _abrir(AppRoutes.ventas)),
+                            _ItemMenu('Inventario',
+                                () => _abrir(AppRoutes.inventario)),
+                            _ItemMenu('Predicción',
+                                () => _abrir(AppRoutes.prediccion)),
+                            _ItemMenu('Perfil',
+                                () => _abrir(AppRoutes.perfil)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -201,13 +191,10 @@ class _TarjetaResumen extends StatelessWidget {
           children: [
             TextSpan(
                 text: '$titulo - ',
-                style: GoogleFonts.archivo(
-                    color: AppColors.azulTitulo,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16)),
+                style: AppTextStyles.azulNegrita16),
             TextSpan(
                 text: valor,
-                style: GoogleFonts.archivo(
+                style: AppTextStyles.archivo(
                     color: AppColors.textoGris,
                     fontWeight: FontWeight.w800,
                     fontSize: 16)),
@@ -231,7 +218,7 @@ class _ItemMenu extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 4),
         child: Text(texto,
-            style: GoogleFonts.archivo(
+            style: AppTextStyles.archivo(
                 color: Colors.white, fontWeight: FontWeight.w800, fontSize: 11)),
       ),
     );

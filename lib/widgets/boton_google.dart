@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../theme/app_text_styles.dart';
 
 class BotonGoogle extends StatelessWidget {
   final String texto;
@@ -27,8 +27,7 @@ class BotonGoogle extends StatelessWidget {
             const Icon(Icons.g_mobiledata, size: 32, color: Color(0xFF4285F4)),
             const SizedBox(width: 6),
             Text(texto,
-                style: GoogleFonts.archivo(
-                    fontWeight: FontWeight.w800, fontSize: 13)),
+                style: AppTextStyles.negrita13),
           ],
         ),
       ),

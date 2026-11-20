@@ -19,11 +19,4 @@ class Usuario {
         correo: (j['correo'] ?? '') as String,
         rol: (j['rol'] ?? '') as String,
       );
-
-  Map<String, dynamic> toJson() => {
-        'nombre': nombre,
-        'apellido': apellido,
-        'correo': correo,
-        'rol': rol,
-      };
 }

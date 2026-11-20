@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 
 /// Campo de texto con etiqueta, estilo login/registro.
 class CampoAuth extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CampoAuthState extends State<CampoAuth> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.etiqueta,
-            style: GoogleFonts.archivo(
+            style: AppTextStyles.archivo(
                 color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13)),
         const SizedBox(height: 6),
         TextFormField(
@@ -59,7 +59,7 @@ class _CampoAuthState extends State<CampoAuth> {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             errorStyle: const TextStyle(color: AppColors.errorClaro),
             border: _borde(AppColors.bordeAuth),
-            enabledBorder: _borde(AppColors.bordeAuth.withOpacity(0.6)),
+            enabledBorder: _borde(AppColors.bordeAuth.withValues(alpha: 0.6)),
             focusedBorder: _borde(AppColors.celesteLink),
             errorBorder: _borde(AppColors.errorClaro),
             focusedErrorBorder: _borde(AppColors.errorClaro),

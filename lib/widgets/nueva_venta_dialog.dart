@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../models/producto.dart';
 import '../models/venta.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import '../utils/formato.dart';
 import 'campo_formulario.dart';
-
-String _dinero(double v) => '\$${v.toStringAsFixed(2)}';
 
 /// Cuadro para vender productos: elige producto y cantidad, agrega varias
 /// líneas y confirma. Devuelve las líneas vendidas (o null si se cancela).
@@ -77,8 +76,7 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final estiloTitulo = GoogleFonts.archivo(
-        color: AppColors.azulTitulo, fontWeight: FontWeight.w800, fontSize: 20);
+    final estiloTitulo = AppTextStyles.tituloPantalla;
 
     // Sin productos con stock: nada que vender todavía.
     if (_store.productos.every((p) => p.stock <= 0)) {
@@ -130,8 +128,8 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
                       Padding(
                         padding: const EdgeInsets.only(top: 6, left: 4),
                         child: Text(
-                            'Valor: ${_dinero(seleccion.valor)}  ·  Disponible: ${_disponible(seleccion)}',
-                            style: GoogleFonts.archivo(
+                            'Valor: ${dineroSinMiles(seleccion.valor)}  ·  Disponible: ${_disponible(seleccion)}',
+                            style: AppTextStyles.archivo(
                                 color: AppColors.textoGris,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12)),
@@ -158,8 +156,7 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
                         onPressed: _agregar,
                         icon: const Icon(Icons.add, size: 18),
                         label: Text('Agregar',
-                            style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w800)),
+                            style: AppTextStyles.negrita),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.azulEncabezado,
                           side: const BorderSide(
@@ -175,10 +172,7 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
               const Divider(height: 24),
               if (_items.isEmpty)
                 Text('Aún no has agregado productos.',
-                    style: GoogleFonts.archivo(
-                        color: AppColors.textoGris,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13))
+                    style: AppTextStyles.grisBold13)
               else
                 for (var i = 0; i < _items.length; i++)
                   Padding(
@@ -190,12 +184,11 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
                               '${_items[i].cantidad} x ${_items[i].descripcion}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.archivo(
+                              style: AppTextStyles.archivo(
                                   fontWeight: FontWeight.w700, fontSize: 13)),
                         ),
-                        Text(_dinero(_items[i].subtotal),
-                            style: GoogleFonts.archivo(
-                                fontWeight: FontWeight.w800, fontSize: 13)),
+                        Text(dineroSinMiles(_items[i].subtotal),
+                            style: AppTextStyles.negrita13),
                         IconButton(
                           visualDensity: VisualDensity.compact,
                           icon: const Icon(Icons.close,
@@ -208,11 +201,8 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
               const SizedBox(height: 8),
               Align(
                 alignment: Alignment.centerRight,
-                child: Text('Total: ${_dinero(_total)}',
-                    style: GoogleFonts.archivo(
-                        color: AppColors.azulTitulo,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16)),
+                child: Text('Total: ${dineroSinMiles(_total)}',
+                    style: AppTextStyles.azulNegrita16),
               ),
             ],
           ),
@@ -222,8 +212,7 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text('Cancelar',
-              style: GoogleFonts.archivo(
-                  color: AppColors.azulTitulo, fontWeight: FontWeight.w800)),
+              style: AppTextStyles.azulNegrita),
         ),
         ElevatedButton(
           onPressed:
@@ -235,7 +224,7 @@ class _NuevaVentaDialogState extends State<NuevaVentaDialog> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
           child:
-              Text('Vender', style: GoogleFonts.archivo(fontWeight: FontWeight.w800)),
+              Text('Vender', style: AppTextStyles.negrita),
         ),
       ],
     );

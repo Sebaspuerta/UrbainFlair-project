@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../data/prediccion_api.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../widgets/campo_formulario.dart';
 import '../widgets/encabezado_azul.dart';
 
@@ -154,7 +154,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
       '${mejora ? '' : 'La red aún no supera esa referencia. '}'
       'Historia usada: ${r.mesesHistoria} meses; con más meses reales la '
       'predicción mejora.',
-      style: GoogleFonts.archivo(
+      style: AppTextStyles.archivo(
           color: AppColors.textoGris, fontWeight: FontWeight.w700, fontSize: 11),
     );
   }
@@ -174,15 +174,12 @@ class _PredictionScreenState extends State<PredictionScreen> {
                 child: Column(
                   children: [
                     Text('Predicción De Ventas',
-                        style: GoogleFonts.archivo(
-                            color: AppColors.azulTitulo,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20)),
+                        style: AppTextStyles.tituloPantalla),
                     const SizedBox(height: 6),
                     Text(
                         'Una red neuronal estima cuántas unidades vas a vender en los próximos meses.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.archivo(fontSize: 12)),
+                        style: AppTextStyles.normal12),
                     const SizedBox(height: 18),
                     if (_categorias != null)
                       Form(
@@ -221,8 +218,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                                       borderRadius: BorderRadius.circular(14)),
                                 ),
                                 child: Text('Predecir',
-                                    style: GoogleFonts.archivo(
-                                        fontWeight: FontWeight.w800)),
+                                    style: AppTextStyles.negrita),
                               ),
                             ),
                           ],
@@ -240,7 +236,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                           children: [
                             Text(_error!,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.archivo(
+                                style: AppTextStyles.archivo(
                                     color: AppColors.rojoCerrar,
                                     fontWeight: FontWeight.w700)),
                             if (_categorias == null) ...[
@@ -292,10 +288,7 @@ class _FilaTabla extends StatelessWidget {
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(etiqueta,
-                style: GoogleFonts.archivo(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14)),
+                style: AppTextStyles.blancoNegrita14),
           ),
           Expanded(
             child: Container(
@@ -303,7 +296,7 @@ class _FilaTabla extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(valor,
-                  style: GoogleFonts.archivo(
+                  style: AppTextStyles.archivo(
                       color: Colors.black87,
                       fontWeight: destacada ? FontWeight.w800 : FontWeight.w700,
                       fontSize: 14)),

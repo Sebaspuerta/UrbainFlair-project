@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../data/ventas_repositorio.dart';
 import '../models/datos_graficas.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../widgets/encabezado_azul.dart';
 
 class ChartsScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ChartsScreenState extends State<ChartsScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
                 children: [
                   Text('Gráficos\nventas y más',
-                      style: GoogleFonts.archivoBlack(
+                      style: AppTextStyles.archivoBlack(
                           color: AppColors.azulTitulo, fontSize: 28, height: 1.2)),
                   const SizedBox(height: 22),
                   _TarjetaGrafica(

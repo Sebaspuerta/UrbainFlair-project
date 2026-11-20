@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/validators.dart';
 
 InputDecoration decoracionFormulario(String hint, {String? prefijo}) =>
     InputDecoration(
       hintText: hint,
       prefixText: prefijo,
-      hintStyle: GoogleFonts.archivo(
-          color: AppColors.textoGris, fontWeight: FontWeight.w700, fontSize: 13),
+      hintStyle: AppTextStyles.grisBold13,
       filled: true,
       fillColor: AppColors.campoClaro,
       isDense: true,
@@ -21,7 +20,7 @@ InputDecoration decoracionFormulario(String hint, {String? prefijo}) =>
 Widget _etiqueta(String t) => Padding(
       padding: const EdgeInsets.only(left: 4, bottom: 6),
       child: Text(t,
-          style: GoogleFonts.archivo(
+          style: AppTextStyles.archivo(
               color: AppColors.azulTitulo,
               fontWeight: FontWeight.w800,
               fontSize: 14)),
@@ -98,10 +97,7 @@ class ListaFormulario extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           decoration: decoracionFormulario('Seleccione'),
           hint: Text('Seleccione',
-              style: GoogleFonts.archivo(
-                  color: AppColors.textoGris,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13)),
+              style: AppTextStyles.grisBold13),
           items: items
               .map((e) => DropdownMenuItem(value: e, child: Text(e)))
               .toList(),

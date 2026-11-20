@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../models/producto.dart';
-import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/navegacion.dart';
 import '../utils/validators.dart';
 import '../widgets/botones_formulario.dart';
@@ -118,10 +117,7 @@ class _RegisterProductScreenState extends State<RegisterProductScreen> {
                   child: Column(
                     children: [
                       Text('Registrar Producto',
-                          style: GoogleFonts.archivo(
-                              color: AppColors.azulTitulo,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 20)),
+                          style: AppTextStyles.tituloPantalla),
                       const SizedBox(height: 22),
                       _fila(
                         ListaFormulario(

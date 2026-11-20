@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/navegacion.dart';
 import 'urban_flair_logo.dart';
 
@@ -25,7 +25,7 @@ class EncabezadoAzul extends StatelessWidget {
                 ? const SizedBox.shrink()
                 : Center(
                     child: Text(titulo!,
-                        style: GoogleFonts.archivo(
+                        style: AppTextStyles.archivo(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
                             fontSize: 18)),

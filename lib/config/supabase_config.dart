@@ -11,7 +11,7 @@
 class SupabaseConfig {
   static const url = 'https://pqdghhsenngbwinmruku.supabase.co';
   static const anonKey = String.fromEnvironment(
-    'https://pqdghhsenngbwinmruku.supabase.co/rest/v1/',
+    'SUPABASE_ANON_KEY',
     defaultValue: 'sb_publishable_u8YXHTwKBmG_s54W8M_41Q_LKv1yLMt',
   );
 }

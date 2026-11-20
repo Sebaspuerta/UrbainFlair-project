@@ -3,60 +3,40 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'config/supabase_config.dart';
-import 'data/app_store.dart';
 import 'routes/app_routes.dart';
-import 'screens/comprobante_screen.dart';
+import 'screens/carga_screen.dart';
 import 'services/notificaciones_service.dart';
 import 'theme/app_colors.dart';
-
-/// Permite navegar desde fuera de un widget (al tocar una notificación).
-final navigatorKey = GlobalKey<NavigatorState>();
+import 'theme/app_text_styles.dart';
+import 'utils/navegacion.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Las fuentes vienen en assets/fonts: no se descargan de internet.
+  GoogleFonts.config.allowRuntimeFetching = false;
+
+  // Se lee antes de initialize(): Supabase limpia el ?code= de la URL al
+  // procesar el regreso de Google.
+  final vieneDeAuth = esRegresoDeAuth(Uri.base);
+
+  // En web, initialize() también recupera la sesión del regreso de Google.
   await Supabase.initialize(
     url: SupabaseConfig.url,
-    anonKey: SupabaseConfig.anonKey,
+    publishableKey: SupabaseConfig.anonKey,
   );
 
-  // Si ya hay sesión guardada (o volvió de Google en web), entra directo al home.
-  var rutaInicial = AppRoutes.login;
-  if (Supabase.instance.client.auth.currentSession != null) {
-    try {
-      await AppStore.instance.cargarUsuario();
-      await AppStore.instance.cargarTodo();
-      rutaInicial = AppRoutes.home;
-    } catch (_) {
-      // Si falla la carga, se queda en el login.
-    }
-  }
+  // Se registra antes de inicializar el plugin (eso ocurre en CargaScreen).
+  NotificacionesService.instance.alTocar = abrirComprobanteDeNotificacion;
 
-  // Notificaciones de venta: al tocar una, abre su comprobante con QR.
-  final notificaciones = NotificacionesService.instance;
-  notificaciones.alTocar = (codigo) async {
-    final store = AppStore.instance;
-    var venta = store.ventaPorCodigo(codigo);
-    if (venta == null) {
-      try {
-        await store.cargarVentas();
-        venta = store.ventaPorCodigo(codigo);
-      } catch (_) {}
-    }
-    final ctx = navigatorKey.currentContext;
-    if (venta != null && ctx != null && ctx.mounted) {
-      ComprobanteScreen.abrir(ctx, venta);
-    }
-  };
-  await notificaciones.inicializar();
-
-  runApp(UrbanFlairApp(rutaInicial: rutaInicial));
+  runApp(UrbanFlairApp(vieneDeAuth: vieneDeAuth));
 }
 
 class UrbanFlairApp extends StatelessWidget {
-  final String rutaInicial;
+  /// true si la app se abrió al volver del login con Google (web).
+  final bool vieneDeAuth;
 
-  const UrbanFlairApp({super.key, this.rutaInicial = AppRoutes.login});
+  const UrbanFlairApp({super.key, this.vieneDeAuth = false});
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +47,18 @@ class UrbanFlairApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.azulBoton),
-        textTheme: GoogleFonts.archivoTextTheme(),
+        textTheme: AppTextStyles.temaTexto(),
       ),
-      initialRoute: rutaInicial,
       routes: AppRoutes.routes,
+      // Siempre arranca en la pantalla de carga; ella decide login / home.
+      // rutaUrl es la ruta de la URL en web (p. ej. al recargar /#/home).
+      onGenerateInitialRoutes: (rutaUrl) => [
+        MaterialPageRoute<void>(
+          settings: const RouteSettings(name: AppRoutes.carga),
+          builder: (_) =>
+              CargaScreen(rutaSolicitada: rutaUrl, vieneDeAuth: vieneDeAuth),
+        ),
+      ],
     );
   }
 }

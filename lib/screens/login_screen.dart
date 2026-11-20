@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/validators.dart';
 import '../widgets/boton_google.dart';
 import '../widgets/campo_auth.dart';
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 12),
                       Text('Iniciar Sesión',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.archivoBlack(
+                          style: AppTextStyles.archivoBlack(
                               color: Colors.white, fontSize: 32)),
                       const SizedBox(height: 22),
                       CampoAuth(
@@ -124,19 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: CircularProgressIndicator(
                                         strokeWidth: 2, color: Colors.white))
                                 : Text('Iniciar Sesión',
-                                    style: GoogleFonts.archivo(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12)),
+                                    style: AppTextStyles.negrita12),
                           ),
                         ),
                       ),
                       const SizedBox(height: 14),
                       Text('O Continuar Con...',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.archivo(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 12)),
+                          style: AppTextStyles.blancoNegrita12),
                       const SizedBox(height: 14),
                       BotonGoogle(
                           texto: 'Iniciar Sesión Con Google',
@@ -146,18 +141,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('¿No Tienes Cuenta? ',
-                              style: GoogleFonts.archivo(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12)),
+                              style: AppTextStyles.blancoNegrita12),
                           GestureDetector(
                             onTap: () => Navigator.pushReplacementNamed(
                                 context, AppRoutes.registro),
                             child: Text('Regístrate',
-                                style: GoogleFonts.archivo(
-                                    color: AppColors.celesteLink,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 12)),
+                                style: AppTextStyles.enlace12),
                           ),
                         ],
                       ),

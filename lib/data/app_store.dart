@@ -23,6 +23,10 @@ class AppStore {
   final List<Proveedor> proveedores = [];
   final List<Venta> ventas = [];
 
+  /// true cuando cargarTodo terminó bien (evita que el Home recargue lo que
+  /// el arranque o el login acaban de traer).
+  bool datosCargados = false;
+
   // ---------------------------------------------------------------- Auth
 
   Future<void> iniciarSesion(String correo, String password) async {
@@ -58,6 +62,7 @@ class AppStore {
   }
 
   Future<void> cerrarSesion() async {
+    datosCargados = false;
     await _db.auth.signOut();
     usuario = null;
     productos.clear();
@@ -83,10 +88,13 @@ class AppStore {
 
   // ------------------------------------------------------------ Lecturas
 
-  Future<void> cargarTodo() => Future.wait([
-        cargarProductos(), // también carga los proveedores
-        cargarVentas(),
-      ]);
+  Future<void> cargarTodo() async {
+    await Future.wait([
+      cargarProductos(), // también carga los proveedores
+      cargarVentas(),
+    ]);
+    datosCargados = true;
+  }
 
   /// Trae primero los proveedores para poder mostrar el nombre del proveedor
   /// de cada producto (la BD solo guarda proveedor_id).

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/navegacion.dart';
 import '../widgets/encabezado_azul.dart';
 
@@ -58,8 +58,7 @@ class ProfileScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(14)),
                           ),
                           child: Text('Cerrar Sesión',
-                              style: GoogleFonts.archivo(
-                                  fontWeight: FontWeight.w800, fontSize: 15)),
+                              style: AppTextStyles.negrita15),
                         ),
                       ),
                     ),
@@ -93,10 +92,7 @@ class _CampoLectura extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 6),
             child: Text(etiqueta,
-                style: GoogleFonts.archivo(
-                    color: AppColors.azulTitulo,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15)),
+                style: AppTextStyles.azulNegrita15),
           ),
           Container(
             width: double.infinity,
@@ -110,7 +106,7 @@ class _CampoLectura extends StatelessWidget {
               ],
             ),
             child: Text(vacio ? hint : valor,
-                style: GoogleFonts.archivo(
+                style: AppTextStyles.archivo(
                     color: vacio ? AppColors.textoGris : Colors.black87,
                     fontWeight: FontWeight.w700,
                     fontSize: 14)),

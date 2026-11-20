@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/validators.dart';
 import '../widgets/boton_google.dart';
 import '../widgets/campo_auth.dart';
@@ -95,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 10),
                       Text('Crear Cuenta',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.archivoBlack(
+                          style: AppTextStyles.archivoBlack(
                               color: Colors.white, fontSize: 30)),
                       const SizedBox(height: 18),
                       CampoAuth(
@@ -148,19 +148,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: CircularProgressIndicator(
                                         strokeWidth: 2, color: Colors.white))
                                 : Text('Registrarse',
-                                    style: GoogleFonts.archivo(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12)),
+                                    style: AppTextStyles.negrita12),
                           ),
                         ),
                       ),
                       const SizedBox(height: 12),
                       Text('O Continuar Con...',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.archivo(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 12)),
+                          style: AppTextStyles.blancoNegrita12),
                       const SizedBox(height: 12),
                       BotonGoogle(
                           texto: 'Registrarse Con Google',
@@ -170,18 +165,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('¿Ya Tienes Cuenta? ',
-                              style: GoogleFonts.archivo(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 12)),
+                              style: AppTextStyles.blancoNegrita12),
                           GestureDetector(
                             onTap: () => Navigator.pushReplacementNamed(
                                 context, AppRoutes.login),
                             child: Text('Inicia Sesión',
-                                style: GoogleFonts.archivo(
-                                    color: AppColors.celesteLink,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 12)),
+                                style: AppTextStyles.enlace12),
                           ),
                         ],
                       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 
 /// Fila Cancelar / Guardar de los formularios.
 class BotonesFormulario extends StatelessWidget {
@@ -20,7 +20,7 @@ class BotonesFormulario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final texto = GoogleFonts.archivo(fontWeight: FontWeight.w800);
+    final texto = AppTextStyles.negrita;
     return Row(
       children: [
         Expanded(

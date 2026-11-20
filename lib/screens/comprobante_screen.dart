@@ -3,13 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../data/app_store.dart';
 import '../models/venta.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
 import '../utils/formato.dart';
 
 /// Comprobante de venta estilo Nequi: check animado, monto grande, detalle,
@@ -22,13 +22,6 @@ class ComprobanteScreen extends StatefulWidget {
 
   const ComprobanteScreen(
       {super.key, required this.venta, this.recienVendida = false});
-
-  static Future<void> abrir(BuildContext context, Venta venta,
-          {bool recienVendida = false}) =>
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) =>
-            ComprobanteScreen(venta: venta, recienVendida: recienVendida),
-      ));
 
   @override
   State<ComprobanteScreen> createState() => _ComprobanteScreenState();
@@ -141,7 +134,7 @@ class _ComprobanteScreenState extends State<ComprobanteScreen>
                             : const Icon(Icons.share_outlined),
                         label: Text('Compartir',
                             style:
-                                GoogleFonts.archivo(fontWeight: FontWeight.w800)),
+                                AppTextStyles.negrita),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.white,
                           side: const BorderSide(color: Colors.white, width: 1.5),
@@ -164,7 +157,7 @@ class _ComprobanteScreenState extends State<ComprobanteScreen>
                         ),
                         child: Text('Listo',
                             style:
-                                GoogleFonts.archivo(fontWeight: FontWeight.w800)),
+                                AppTextStyles.negrita),
                       ),
                     ),
                   ],
@@ -197,7 +190,7 @@ class _Recibo extends StatelessWidget {
     TextStyle estilo(double size,
             {Color color = AppColors.azulTitulo,
             FontWeight peso = FontWeight.w800}) =>
-        GoogleFonts.archivo(fontSize: size, color: color, fontWeight: peso);
+        AppTextStyles.archivo(fontSize: size, color: color, fontWeight: peso);
 
     return Container(
       decoration: BoxDecoration(
@@ -310,15 +303,12 @@ class _Fila extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(titulo,
-                style: GoogleFonts.archivo(
-                    color: AppColors.textoGris,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13)),
+                style: AppTextStyles.grisBold13),
             const SizedBox(width: 12),
             Expanded(
               child: Text(valor,
                   textAlign: TextAlign.right,
-                  style: GoogleFonts.archivo(
+                  style: AppTextStyles.archivo(
                       color: AppColors.azulTitulo,
                       fontWeight: FontWeight.w800,
                       fontSize: 13)),

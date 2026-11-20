@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../models/venta.dart';
 import '../services/notificaciones_service.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import '../utils/formato.dart';
+import '../utils/navegacion.dart';
 import '../widgets/encabezado_azul.dart';
 import '../widgets/nueva_venta_dialog.dart';
-import 'comprobante_screen.dart';
-
-String _dinero(double v) => '\$${v.toStringAsFixed(2)}';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -58,7 +57,7 @@ class _SalesScreenState extends State<SalesScreen> {
       // Notificación tipo comprobante + pantalla con el QR.
       if (await permiso) await notificaciones.notificarVenta(venta);
       if (!mounted) return;
-      await ComprobanteScreen.abrir(context, venta, recienVendida: true);
+      await abrirComprobante(context, venta, recienVendida: true);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
@@ -79,10 +78,7 @@ class _SalesScreenState extends State<SalesScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 14, bottom: 10),
               child: Text('Mis Ventas',
-                  style: GoogleFonts.archivo(
-                      color: AppColors.azulTitulo,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20)),
+                  style: AppTextStyles.tituloPantalla),
             ),
             SizedBox(
               width: 200,
@@ -91,8 +87,7 @@ class _SalesScreenState extends State<SalesScreen> {
                 onPressed: _nuevaVenta,
                 icon: const Icon(Icons.add_shopping_cart, size: 20),
                 label: Text('Nueva Venta',
-                    style: GoogleFonts.archivo(
-                        fontWeight: FontWeight.w800, fontSize: 15)),
+                    style: AppTextStyles.negrita15),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.azulEncabezado,
                   foregroundColor: Colors.white,
@@ -107,9 +102,7 @@ class _SalesScreenState extends State<SalesScreen> {
               child: ventas.isEmpty
                   ? Center(
                       child: Text('Aún no hay ventas registradas.',
-                          style: GoogleFonts.archivo(
-                              color: AppColors.textoGris,
-                              fontWeight: FontWeight.w700)))
+                          style: AppTextStyles.grisBold))
                   : ListView.builder(
                       padding: const EdgeInsets.fromLTRB(12, 0, 12, 20),
                       itemCount: ventas.length,
@@ -131,13 +124,10 @@ class _TarjetaVenta extends StatelessWidget {
   Widget _columna(String titulo, String valor) => Column(
         children: [
           Text(titulo,
-              style: GoogleFonts.archivo(
-                  color: AppColors.azulTitulo,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15)),
+              style: AppTextStyles.azulNegrita15),
           const SizedBox(height: 10),
           Text(valor,
-              style: GoogleFonts.archivo(
+              style: AppTextStyles.archivo(
                   color: AppColors.textoGris,
                   fontWeight: FontWeight.w800,
                   fontSize: 14)),
@@ -149,8 +139,7 @@ class _TarjetaVenta extends StatelessWidget {
       context: context,
       builder: (_) => AlertDialog(
         title: Text('Venta ${venta.codigo}',
-            style: GoogleFonts.archivo(
-                color: AppColors.azulTitulo, fontWeight: FontWeight.w800)),
+            style: AppTextStyles.azulNegrita),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -171,12 +160,12 @@ class _TarjetaVenta extends StatelessWidget {
                                 '${item.cantidad} x ${item.descripcion}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis)),
-                        Text(_dinero(item.subtotal)),
+                        Text(dineroSinMiles(item.subtotal)),
                       ],
                     ),
                   ),
               const Divider(height: 20),
-              Text('Total: ${_dinero(venta.total)}',
+              Text('Total: ${dineroSinMiles(venta.total)}',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
@@ -185,7 +174,7 @@ class _TarjetaVenta extends StatelessWidget {
           TextButton.icon(
             onPressed: () {
               Navigator.pop(context);
-              ComprobanteScreen.abrir(context, venta);
+              abrirComprobante(context, venta);
             },
             icon: const Icon(Icons.qr_code_2),
             label: const Text('Comprobante QR'),
@@ -219,7 +208,7 @@ class _TarjetaVenta extends StatelessWidget {
             children: [
               _columna('Código', venta.codigo),
               _columna('Fecha', venta.fechaTexto),
-              _columna('Total', _dinero(venta.total)),
+              _columna('Total', dineroSinMiles(venta.total)),
             ],
           ),
           const SizedBox(height: 20),
@@ -235,8 +224,7 @@ class _TarjetaVenta extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14)),
               ),
               child: Text('Ver Detalles',
-                  style: GoogleFonts.archivo(
-                      fontWeight: FontWeight.w800, fontSize: 15)),
+                  style: AppTextStyles.negrita15),
             ),
           ),
         ],

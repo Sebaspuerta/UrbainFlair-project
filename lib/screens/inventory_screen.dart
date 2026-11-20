@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/app_store.dart';
 import '../models/producto.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_text_styles.dart';
+import '../utils/formato.dart';
 import '../widgets/encabezado_azul.dart';
 
 /// Inventario: una página por producto, con Anterior / Siguiente.
@@ -47,7 +48,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
         MapEntry('Marca', p?.marca ?? '—'),
         MapEntry('Talla', p?.talla ?? '—'),
         MapEntry('Stock', p == null ? '—' : '${p.stock}'),
-        MapEntry('Valor', p == null ? '—' : '\$${p.valor.toStringAsFixed(2)}'),
+        MapEntry('Valor', p == null ? '—' : dineroSinMiles(p.valor)),
         MapEntry('Proveedor', p?.proveedor ?? '—'),
       ];
 
@@ -65,10 +66,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 14, bottom: 14),
               child: Text('Inventario De Productos',
-                  style: GoogleFonts.archivo(
-                      color: AppColors.azulTitulo,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20)),
+                  style: AppTextStyles.tituloPantalla),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -100,9 +98,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 14),
                         child: Text('Aún no hay productos registrados.',
-                            style: GoogleFonts.archivo(
-                                color: AppColors.textoGris,
-                                fontWeight: FontWeight.w700)),
+                            style: AppTextStyles.grisBold),
                       ),
                   ],
                 ),
@@ -120,7 +116,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                         _hayAnterior ? () => setState(() => _pagina--) : null,
                   ),
                   Text('Página ${_pagina + 1}',
-                      style: GoogleFonts.archivo(
+                      style: AppTextStyles.archivo(
                           color: AppColors.textoGris,
                           fontWeight: FontWeight.w800)),
                   _BotonPagina(
@@ -158,10 +154,7 @@ class _FilaInventario extends StatelessWidget {
             child: Text(etiqueta,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.archivo(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14)),
+                style: AppTextStyles.blancoNegrita14),
           ),
           Expanded(
             child: Container(
@@ -171,7 +164,7 @@ class _FilaInventario extends StatelessWidget {
               child: Text(valor,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.archivo(
+                  style: AppTextStyles.archivo(
                       color: Colors.black87,
                       fontWeight: FontWeight.w700,
                       fontSize: 14)),
@@ -202,7 +195,7 @@ class _BotonPagina extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       ),
       child:
-          Text(texto, style: GoogleFonts.archivo(fontWeight: FontWeight.w800)),
+          Text(texto, style: AppTextStyles.negrita),
     );
   }
 }
